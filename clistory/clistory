@@ -1,0 +1,43 @@
+#!/bin/bash
+
+HISTFILE="${HISTFILE:-$HOME/.zsh_history}"
+
+# Get time boundaries based on argument
+case "${1:-today}" in
+    today)
+        start_ts=$(date -j -f "%Y-%m-%d %H:%M:%S" "$(date +%Y-%m-%d) 00:00:00" +%s)
+        label="today"
+        ;;
+    yesterday)
+        start_ts=$(date -j -v-1d -f "%Y-%m-%d %H:%M:%S" "$(date -v-1d +%Y-%m-%d) 00:00:00" +%s)
+        end_ts=$(date -j -f "%Y-%m-%d %H:%M:%S" "$(date +%Y-%m-%d) 00:00:00" +%s)
+        label="yesterday"
+        ;;
+    week)
+        start_ts=$(date -j -v-7d +%s)
+        label="in the last 7 days"
+        ;;
+    *)
+        echo "Usage: clistory [today|yesterday|week]" >&2
+        exit 1
+        ;;
+esac
+
+echo "# terminal commands run $label"
+echo
+
+while IFS= read -r line; do
+    # Parse format: : TIMESTAMP:DURATION;COMMAND
+    if [[ "$line" =~ ^:[[:space:]]([0-9]+):[0-9]+\;(.*)$ ]]; then
+        ts="${BASH_REMATCH[1]}"
+        cmd="${BASH_REMATCH[2]}"
+
+        # Check time boundaries
+        [[ -n "$start_ts" && "$ts" -lt "$start_ts" ]] && continue
+        [[ -n "$end_ts" && "$ts" -ge "$end_ts" ]] && continue
+
+        # Format and print
+        datetime=$(date -j -f "%s" "$ts" "+%Y-%m-%d %H:%M")
+        echo "$datetime $cmd"
+    fi
+done < "$HISTFILE"

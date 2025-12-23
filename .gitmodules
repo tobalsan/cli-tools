@@ -1,0 +1,15 @@
+[submodule "amsg"]
+	path = amsg
+	url = git@github.com:tobalsan/amsg.git
+[submodule "exa"]
+	path = exa
+	url = git@github.com:tobalsan/exa.git
+[submodule "langfuse-cli"]
+	path = langfuse-cli
+	url = git@github.com:tobalsan/langfuse-cli.git
+[submodule "linctl"]
+	path = linctl
+	url = git@github.com:tobalsan/linctl.git
+[submodule "notion-cli"]
+	path = notion-cli
+	url = git@github.com:tobalsan/notion-cli.git

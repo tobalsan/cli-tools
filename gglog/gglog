@@ -1,0 +1,64 @@
+#!/usr/bin/env zsh
+
+local after before title
+local script_dir="${0:A:h}"
+local config_file="$script_dir/repo_paths.txt"
+
+if [[ ! -f "$config_file" ]]; then
+  echo "Error: $config_file not found"
+  exit 1
+fi
+
+local -a DIRS=("${(@f)$(< "$config_file")}")
+
+case "${1:-today}" in
+  today)
+    after="today 00:00"
+    before=""
+    title="today ($(date '+%Y-%m-%d'))"
+    ;;
+  yesterday)
+    after="yesterday 00:00"
+    before="today 00:00"
+    title="yesterday ($(date -v-1d '+%Y-%m-%d' 2>/dev/null || date -d '-1 day' '+%Y-%m-%d'))"
+    ;;
+  week)
+    after="7 days ago 00:00"
+    before="tomorrow 00:00"
+    title="past week"
+    ;;
+  *)
+    echo "Usage: gglog [today|yesterday|week]"
+    echo "  today     → commits from today (default)"
+    echo "  yesterday → commits from yesterday"
+    echo "  week      → commits from the past 7 days"
+    exit 1
+    ;;
+esac
+
+echo "=== Commits $title ==="
+echo "Searching in: ${DIRS[@]}"
+echo
+
+for dir in "${DIRS[@]}"; do
+  # Expand ~ and resolve the path
+  dir="${dir/#\~/$HOME}"
+  [ ! -d "$dir" ] && continue  # Skip if directory doesn't exist
+
+  find "$dir" -type d -name .git -exec sh -c '
+    git_dir="$1"
+    after="$2"
+    before="$3"
+    repo="$(dirname "$git_dir")"
+    if [ -n "$before" ]; then
+      log=$(git --git-dir="$git_dir" log --oneline --all --after="$after" --before="$before" 2>/dev/null)
+    else
+      log=$(git --git-dir="$git_dir" log --oneline --all --after="$after" 2>/dev/null)
+    fi
+    if [ -n "$log" ]; then
+      echo "Repo: $repo"
+      echo "$log"
+      echo
+    fi
+  ' sh {} "$after" "$before" \;
+done
