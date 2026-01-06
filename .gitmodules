@@ -13,3 +13,6 @@
 [submodule "notion-cli"]
 	path = notion-cli
 	url = git@github.com:tobalsan/notion-cli.git
+[submodule "librarian"]
+	path = librarian
+	url = https://github.com/iannuttall/librarian.git
