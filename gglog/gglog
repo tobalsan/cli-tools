@@ -51,9 +51,9 @@ for dir in "${DIRS[@]}"; do
     before="$3"
     repo="$(dirname "$git_dir")"
     if [ -n "$before" ]; then
-      log=$(git --git-dir="$git_dir" log --oneline --all --after="$after" --before="$before" 2>/dev/null)
+      log=$(git --git-dir="$git_dir" log --format="%h %an: %s" --all --after="$after" --before="$before" 2>/dev/null)
     else
-      log=$(git --git-dir="$git_dir" log --oneline --all --after="$after" 2>/dev/null)
+      log=$(git --git-dir="$git_dir" log --format="%h %an: %s" --all --after="$after" 2>/dev/null)
     fi
     if [ -n "$log" ]; then
       echo "Repo: $repo"
