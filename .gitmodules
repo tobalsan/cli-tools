@@ -16,3 +16,6 @@
 [submodule "raindrop"]
 	path = raindrop
 	url = https://github.com/tobalsan/raindrop-cli.git
+[submodule "typefully"]
+	path = typefully
+	url = git@github.com:tobalsan/typefully-cli.git
