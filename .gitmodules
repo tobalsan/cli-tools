@@ -19,3 +19,6 @@
 [submodule "typefully"]
 	path = typefully
 	url = git@github.com:tobalsan/typefully-cli.git
+[submodule "aicommit"]
+	path = aicommit
+	url = git@github.com:tobalsan/aicommit.git
