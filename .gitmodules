@@ -22,3 +22,6 @@
 [submodule "aicommit"]
 	path = aicommit
 	url = git@github.com:tobalsan/aicommit.git
+[submodule "walpha"]
+	path = walpha
+	url = git@github.com:tobalsan/walpha.git
