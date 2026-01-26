@@ -25,3 +25,6 @@
 [submodule "walpha"]
 	path = walpha
 	url = git@github.com:tobalsan/walpha.git
+[submodule "alink"]
+	path = alink
+	url = git@github.com:tobalsan/alink.git
