@@ -28,3 +28,6 @@
 [submodule "alink"]
 	path = alink
 	url = git@github.com:tobalsan/alink.git
+[submodule "council"]
+	path = council
+	url = git@github.com:tobalsan/council.git
