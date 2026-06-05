@@ -31,3 +31,6 @@
 [submodule "council"]
 	path = council
 	url = git@github.com:tobalsan/council.git
+[submodule "bird"]
+	path = bird
+	url = git@github.com:cloud-algodyn/bird.git
